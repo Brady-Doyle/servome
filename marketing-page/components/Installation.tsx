@@ -44,7 +44,7 @@ const items = [
   },
 ];
 
-export default function Highlights() {
+export default function Services() {
   return (
     <Box
       id="installation"
