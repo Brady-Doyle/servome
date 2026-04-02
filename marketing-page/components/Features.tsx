@@ -10,8 +10,55 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
-import EdgesensorHighRoundedIcon from '@mui/icons-material/EdgesensorHighRounded';
 import ViewQuiltRoundedIcon from '@mui/icons-material/ViewQuiltRounded';
+
+type StyledBoxProps = {
+  lightImage: string;
+  darkImage: string;
+};
+
+const StyledBox = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'lightImage' && prop !== 'darkImage',
+})<StyledBoxProps>(({ theme, lightImage, darkImage }) => ({
+  alignSelf: 'center',
+  width: '100%',
+  aspectRatio: '2048 / 1080',
+  position: 'relative',
+  boxSizing: 'border-box',
+  borderRadius: (theme.vars || theme).shape.borderRadius,
+  outline: '6px solid',
+  outlineColor: 'hsla(220, 25%, 80%, 0.2)',
+  border: '1px solid',
+  borderColor: (theme.vars || theme).palette.grey[200],
+  boxShadow: '0 0 12px 8px hsla(220, 25%, 80%, 0.2)',
+  backgroundColor: (theme.vars || theme).palette.background.paper,
+  overflow: 'hidden',
+
+  [theme.breakpoints.up('sm')]: {
+    marginTop: theme.spacing(4),
+  },
+
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    inset: 12,
+    borderRadius: `calc(${(theme.vars || theme).shape.borderRadius}px - 12px)`,
+    backgroundImage: `url("${lightImage}")`,
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  },
+
+  ...theme.applyStyles('dark', {
+    boxShadow: '0 0 24px 12px hsla(210, 100%, 25%, 0.2)',
+    outlineColor: 'hsla(220, 20%, 42%, 0.1)',
+    borderColor: (theme.vars || theme).palette.grey[700],
+
+    '&::before': {
+      backgroundImage: `url("${darkImage}")`,
+    },
+  }),
+}));
 
 const items = [
   {
@@ -19,16 +66,16 @@ const items = [
     title: 'Dashboard',
     description:
       'Manage your server through the web GUI from anywhere in the world using the Portainer App.',
-    imageLight: `url("portainer_light.png")`,
-    imageDark: `url("portainer_dark.png")`,
+    lightImage: '/portainer_light.png',
+    darkImage: '/portainer_dark.png',
   },
   {
     icon: <DevicesRoundedIcon />,
     title: 'Available on all platforms',
     description:
       'Download apps on all of your devices to use your services.',
-    imageLight: `url("devices.png")`,
-    imageDark: `url("devices.png")`,
+    lightImage: '/devices.png',
+    darkImage: '/devices.png',
   },
 ];
 
@@ -90,27 +137,14 @@ export function MobileLayout({
           />
         ))}
       </Box>
-      <Card variant="outlined">
-        <Box
-          sx={(theme) => ({
-            mb: 2,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundImage: 'var(--items-imageLight)',
-            ...theme.applyStyles('dark', {
-              backgroundImage: 'var(--items-imageDark)',
-            }),
-          })}
-          style={
-            items[selectedItemIndex]
-              ? ({
-                  '--items-imageLight': items[selectedItemIndex].imageLight,
-                  '--items-imageDark': items[selectedItemIndex].imageDark,
-                } as any)
-              : {}
-          }
+
+      <Card variant="outlined" sx={{ p: 2 }}>
+        <StyledBox
+          lightImage={selectedFeature.lightImage}
+          darkImage={selectedFeature.darkImage}
         />
-        <Box>
+
+        <Box sx={{ mt: 2 }}>
           <Typography
             gutterBottom
             sx={{ color: 'text.primary', fontWeight: 'medium' }}
@@ -136,16 +170,20 @@ export default function Features() {
   const selectedFeature = items[selectedItemIndex];
 
   return (
-    <Container id="features" 
-      sx={{ 
+    <Container
+      id="features"
+      sx={{
         scrollMarginTop: 100,
         pt: { xs: 4, sm: 12 },
         pb: { xs: 4, sm: 12 },
-      }}>
-      <Box id="features"  
-        sx={{ 
-          width: { sm: '100%', md: '70%' } 
-        }}>
+      }}
+    >
+      <Box
+        id="features"
+        sx={{
+          width: { sm: '100%', md: '70%' },
+        }}
+      >
         <Typography
           component="h2"
           variant="h2"
@@ -155,6 +193,7 @@ export default function Features() {
           Server features
         </Typography>
       </Box>
+
       <Box
         sx={{
           display: 'flex',
@@ -196,7 +235,7 @@ export default function Features() {
                       width: '100%',
                       display: 'flex',
                       flexDirection: 'column',
-                      alignItems: 'left',
+                      alignItems: 'flex-start',
                       gap: 1,
                       textAlign: 'left',
                       textTransform: 'none',
@@ -208,57 +247,42 @@ export default function Features() {
                   ]}
                 >
                   {icon}
-
                   <Typography variant="h6">{title}</Typography>
                   <Typography variant="body2">{description}</Typography>
                 </Box>
               </Box>
             ))}
           </Box>
+
           <MobileLayout
             selectedItemIndex={selectedItemIndex}
             handleItemClick={handleItemClick}
             selectedFeature={selectedFeature}
           />
         </div>
+
         <Box
           sx={{
             display: { xs: 'none', sm: 'flex' },
             width: { xs: '100%', md: '70%' },
-            height: 'var(--items-image-height)',
           }}
         >
           <Card
             variant="outlined"
             sx={{
-              height: '100%',
               width: '100%',
+
+              
+              p: 2,
               display: { xs: 'none', sm: 'flex' },
+              alignItems: 'center',
+              justifyContent: 'center',
               pointerEvents: 'none',
             }}
           >
-            <Box
-              sx={(theme) => ({
-                mb: 2,
-                width: '100%',
-                height: 300,
-                minHeight: 180,
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundImage: 'var(--items-imageLight)',
-                ...theme.applyStyles('dark', {
-                  backgroundImage: 'var(--items-imageDark)',
-                }),
-              })}
-              style={
-                items[selectedItemIndex]
-                  ? ({
-                      '--items-imageLight': items[selectedItemIndex].imageLight,
-                      '--items-imageDark': items[selectedItemIndex].imageDark,
-                    } as React.CSSProperties)
-                  : {}
-              }
+            <StyledBox
+              lightImage={selectedFeature.lightImage}
+              darkImage={selectedFeature.darkImage}
             />
           </Card>
         </Box>
