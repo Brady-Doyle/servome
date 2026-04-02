@@ -115,8 +115,7 @@ export default function Services() {
             <Box
               key={service.title}
               sx={{
-                mt: { sm: 10 },
-                mb: { sm: 10 },
+                mt: { xs: 10, sm: 10 },
               }}
             >
               <Typography

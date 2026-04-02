@@ -1,10 +1,18 @@
+'use client';
+
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
+import MenuItem from '@mui/material/MenuItem';
+import Drawer from '@mui/material/Drawer';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import Link from '@mui/material/Link';
 
@@ -44,10 +52,10 @@ export default function AppAppBar() {
     >
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
-          <Box sx={{display: 'flex', alignItems: 'center', px: 0 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <img src="/icon.png" alt="icon" style={{ width: "40px", height: "40px", margin: "2px 10px" }} />
-              <Button variant="text" color="info" size="small" onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" });}}>
+          <Box sx={{display:'flex', alignItems: 'center', px: 0 }}>
+            <img src="/icon.png" alt="icon" style={{ width: "40px", height: "40px", margin: "2px 10px" }} />
+            <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex' }, alignItems: 'center' }}>
+              <Button variant="text" color="info" size="small" href="#home">
                 Home
               </Button>
               <Button variant="text" color="info" size="small" href="#installation">
@@ -73,14 +81,55 @@ export default function AppAppBar() {
           >
           </Box>
           <Box sx={{ display: 'flex', gap: 1 }}>
-              <Button variant="text" color="info" size="small">
-                <Link
-                  href="mailto:servomehomeservers@gmail.com?subject=Home%20Server%20Inquiry&body=Hi%2C%20I%20wanted%20to%20ask%20about..."
-                >
-                  Contact Us
-                </Link>
-              </Button>
+            <Button variant="text" color="info" size="small">
+              <Link
+                href="mailto:servomehomeservers@gmail.com?subject=Home%20Server%20Inquiry&body=Hi%2C%20I%20wanted%20to%20ask%20about..."
+              >
+                Contact Us
+              </Link>
+            </Button>
             <ColorModeIconDropdown size="medium" />
+            <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
+              <MenuIcon />
+            </IconButton>
+            <Drawer
+              anchor="top"
+              open={open}
+              onClose={toggleDrawer(false)}
+              PaperProps={{
+                sx: {
+                  top: 'var(--template-frame-height, 0px)',
+                },
+              }}
+            >
+              <Box sx={{ backgroundColor: 'background.default' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <IconButton onClick={toggleDrawer(false)}>
+                    <CloseRoundedIcon />
+                  </IconButton>
+                </Box>
+                <MenuItem component="a" href="#home">
+                  Home
+                </MenuItem>
+                <MenuItem component="a" href="#installation">
+                  Installation
+                </MenuItem>
+                <MenuItem component="a" href="#services">
+                  Services
+                </MenuItem>
+                <MenuItem component="a" href="#features">
+                  Features
+                </MenuItem>
+                <MenuItem component="a" href="#pricing">
+                  Pricing
+                </MenuItem>
+              </Box>
+            </Drawer>
           </Box>
         </StyledToolbar>
       </Container>

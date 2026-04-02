@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 export default function Title() {
   return (
     <Box
-      id="title"
+      id="home"
       sx={(theme) => ({
         width: '100%',
         backgroundRepeat: 'no-repeat',

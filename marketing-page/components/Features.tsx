@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -25,8 +27,8 @@ const items = [
     title: 'Available on all platforms',
     description:
       'Download apps on all of your devices to use your services.',
-    imageLight: `url("${process.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/devices-light.png")`,
-    imageDark: `url("${process.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/devices-dark.png")`,
+    imageLight: `url("devices.png")`,
+    imageDark: `url("devices.png")`,
   },
 ];
 
@@ -94,7 +96,6 @@ export function MobileLayout({
             mb: 2,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            minHeight: 280,
             backgroundImage: 'var(--items-imageLight)',
             ...theme.applyStyles('dark', {
               backgroundImage: 'var(--items-imageDark)',
@@ -109,7 +110,7 @@ export function MobileLayout({
               : {}
           }
         />
-        <Box sx={{ px: 2, pb: 2 }}>
+        <Box>
           <Typography
             gutterBottom
             sx={{ color: 'text.primary', fontWeight: 'medium' }}
@@ -138,7 +139,8 @@ export default function Features() {
     <Container id="features" 
       sx={{ 
         scrollMarginTop: 100,
-        py: { xs: 8, sm: 16 } 
+        pt: { xs: 4, sm: 12 },
+        pb: { xs: 4, sm: 12 },
       }}>
       <Box id="features"  
         sx={{ 
@@ -237,10 +239,11 @@ export default function Features() {
           >
             <Box
               sx={(theme) => ({
-                m: 'auto',
-                width: 600,
+                mb: 2,
+                width: '100%',
                 height: 300,
-                backgroundSize: 'cover',
+                minHeight: 180,
+                backgroundSize: 'contain',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundImage: 'var(--items-imageLight)',
@@ -253,7 +256,7 @@ export default function Features() {
                   ? ({
                       '--items-imageLight': items[selectedItemIndex].imageLight,
                       '--items-imageDark': items[selectedItemIndex].imageDark,
-                    } as any)
+                    } as React.CSSProperties)
                   : {}
               }
             />
